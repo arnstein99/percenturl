@@ -1,19 +1,37 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 static int char_to_num(unsigned char chr);
 
 int main(int argc, char* argv[])
 {
-    if (argc != 1)
+    int verbose = 0;
+    switch (argc)
     {
-        fprintf(stderr, "No command line arguments or options\n");
+    case 1:
+        break;
+    case 2:
+        if ((strcmp(argv[1], "-v") == 0) ||
+            (strcmp(argv[1], "--verbose") == 0))
+        {
+            verbose = 1;
+        }
+        else
+        {
+            fprintf(stderr, "Usage: xhexurl [-v|--verbose]\n");
+            exit(1);
+        }
+        break;
+    default:
+        fprintf(stderr, "Usage: xhexurl [-v|--verbose]\n");
         exit(1);
+        break;
     }
 
     setvbuf(stdout, NULL, _IONBF, 0);
 
-    size_t index;
+    size_t index = 0;
     int chr, old_chr, old_old_chr;
     int value, partial_value;
 
@@ -83,7 +101,7 @@ int main(int argc, char* argv[])
         value += partial_value;
         putchar(value);
     }
-    fprintf(stderr, "Processed %lu characters\n", index);
+    if (verbose) fprintf(stderr, "Processed %lu characters\n", index);
 
     return 0;
 }
