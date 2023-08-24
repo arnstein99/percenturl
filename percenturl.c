@@ -11,6 +11,8 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
+    setvbuf(stdout, NULL, _IONBF, 0);
+
     size_t index;
     int chr, old_chr;
     int value, partial_value;
